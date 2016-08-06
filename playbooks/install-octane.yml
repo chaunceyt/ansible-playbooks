@@ -2,7 +2,11 @@
 - name: Checkout Octane Lightning Distro.
   git: repo=https://github.com/phase2/octane.git dest=/var/www/octane
 
+- name: Set permissions on /var/www/octane
+  file: path=/var/www/octane owner=ec2-user recurse=yes
+
 - name: Run composer install within octane directory
   command: /usr/local/bin/composer install && composer drupal-scaffold
   args:
     chdir: /var/www/octane
+  become: no
