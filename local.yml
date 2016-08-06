@@ -86,4 +86,5 @@
   - wait_for: port=4444 delay=10
 
   - include: playbooks/install-octane.yml
+    become: no
 
