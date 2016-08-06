@@ -46,55 +46,23 @@
   - name: Start and enable Apache
     service: name=httpd state=started enabled=yes
 
-  - name: checking if /usr/local/bin/composer exists
-    stat: path=/usr/local/bin/composer
-    register: composer
+  - include: playbooks/install-composer.yml
+  - include: playbooks/install-drush.yml
 
-  - name: Ensuring /usr/local/composer exists
-    file: path=/usr/local/composer state=directory mode=0755
+  - block:
+      - name: Check for swap file of t2.micro
+        stat: path=/var/swap.1
+        register: swap_file
 
-  - name: Checking if /usr/local/composer/vendor/bin/drush exists
-    stat: path=/usr/local/composer/vendor/bin/drush
-    register: drush
-  - name: Grab Composer
-    get_url: url=https://getcomposer.org/download/1.2.0/composer.phar dest=/tmp/
-    when: composer.stat.exists == False
+      - include: playbooks/create-swap.yml
+        when: swap_file.stat.exists == False
 
-  - name: Install Composer
-    shell: mv /tmp/composer.phar /usr/local/bin/composer; chmod +x /usr/local/bin/composer
-    when: composer.stat.exists == False
-
-  - name: Installing Drush
-    shell: export COMPOSER_HOME=/root && /usr/local/bin/composer -d=/usr/local/composer global require drush/drush:6.4.0
-    when: drush.stat.exists == False
-
-  - name: Updating composer components
-    shell: /usr/local/bin/composer -d=/usr/local/composer global update
-    when: drush_update_packages
-
-  - name: Create /opt/drush
-    file: path=/opt/drush state=directory mode=0755
-
-  - name: Create symlink for drush under /opt/drush
-    file: src=/usr/local/composer/vendor/bin/drush dest=/opt/drush/drush owner=root group=root state=link
-
-  - name: Create symlink for drush under /usr/local/bin
-    file: src=/opt/drush/drush dest=/usr/local/bin/drush owner=root group=root state=link
-
-  - name: Check for swap file of t2.micro
-    stat: path=/var/swap.1
-    register: swap_file
+      - name: Enable Swap if we do not have a /var/swap.1
+        command: /tmp/setup-swap.sh
+        args:
+          creates: /var/swap.1
+        when: swap_file.stat.exists == False
     when: ansible_ec2_instance_type == "t2.micro"
-
-  - name: Copy over setup-swap.sh
-    copy: src=files/setup-swap.sh dest=/tmp/setup-swap.sh mode=0755 owner=root group=root
-    when: ansible_ec2_instance_type == "t2.micro" and swap_file.stat.exists == False
-
-  - name: Enable Swap if we do not have a /var/swap.1
-    command: /tmp/setup-swap.sh
-    args:
-      creates: /var/swap.1
-    when: ansible_ec2_instance_type == "t2.micro" and swap_file.stat.exists == False
     
   - name: Copy setup docker-compose
     copy: src=files/setup-docker-compose.sh dest=/tmp/setup-docker-compose.sh mode=0755 owner=root group=root

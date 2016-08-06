@@ -1,0 +1,10 @@
+---
+- name: Copy over setup-swap.sh
+  copy: src=files/setup-swap.sh dest=/tmp/setup-swap.sh mode=0755 owner=root group=root
+  when: swap_file.stat.exists == False
+
+- name: Enable Swap if we do not have a /var/swap.1
+  command: /tmp/setup-swap.sh
+  args:
+    creates: /var/swap.1
+  when: ansible_ec2_instance_type == "t2.micro" and swap_file.stat.exists == False

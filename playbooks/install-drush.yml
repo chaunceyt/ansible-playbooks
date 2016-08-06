@@ -1,0 +1,17 @@
+---
+- name: Installing Drush
+  shell: export COMPOSER_HOME=/root && /usr/local/bin/composer -d=/usr/local/composer global require drush/drush:6.4.0
+  when: drush.stat.exists == False
+
+- name: Updating composer components
+  shell: /usr/local/bin/composer -d=/usr/local/composer global update
+  when: drush_update_packages
+
+- name: Create /opt/drush
+  file: path=/opt/drush state=directory mode=0755
+
+- name: Create symlink for drush under /opt/drush
+  file: src=/usr/local/composer/vendor/bin/drush dest=/opt/drush/drush owner=root group=root state=link
+
+- name: Create symlink for drush under /usr/local/bin
+  file: src=/opt/drush/drush dest=/usr/local/bin/drush owner=root group=root state=link

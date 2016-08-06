@@ -1,0 +1,19 @@
+---
+- name: checking if /usr/local/bin/composer exists
+  stat: path=/usr/local/bin/composer
+  register: composer
+
+- name: Ensuring /usr/local/composer exists
+  file: path=/usr/local/composer state=directory mode=0755
+
+- name: Checking if /usr/local/composer/vendor/bin/drush exists
+  stat: path=/usr/local/composer/vendor/bin/drush
+  register: drush
+
+- name: Grab Composer
+  get_url: url=https://getcomposer.org/download/1.2.0/composer.phar dest=/tmp/
+  when: composer.stat.exists == False
+
+- name: Install Composer
+  shell: mv /tmp/composer.phar /usr/local/bin/composer; chmod +x /usr/local/bin/composer
+  when: composer.stat.exists == False
