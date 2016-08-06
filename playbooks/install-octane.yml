@@ -6,8 +6,16 @@
   file: path=/var/www/octane owner=ec2-user recurse=yes
 
 - name: Run composer install within octane directory
-  command: /usr/local/bin/composer install && composer drupal-scaffold
+  command: /usr/local/bin/composer install
   args:
     chdir: /var/www/octane
   become: true
   become_user: ec2-user
+
+- name: Run composer drupal-scaffold
+  command: /usr/local/bin/compose drupal-scaffold
+  args:
+    chdir: /var/www/octane
+  become: true
+  become_user: ec2-user
+
