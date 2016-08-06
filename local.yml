@@ -92,7 +92,7 @@
     when: ansible_ec2_instance_type == 't2.micro'
 
   - name: Make swap
-    command: /sbin/mkswap /var/swap.1
+    command: /sbin/mkswap /var/swap.1 creates=/var/swap.1
     when: ansible_ec2_instance_type == 't2.micro'
 
   - name: Set permission on swap
