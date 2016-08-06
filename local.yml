@@ -34,7 +34,11 @@
       state: latest
     when: epel_installed|failed
 
-  - include: {{ ansible_distribution }}.yml
+  - include: Amazon.yml
+    when: ansible_distribution == 'Amazon'
+
+  - include: Redhat.yml
+    when: ansible_distribution == 'Redhat'
 
   - name: Copy httpd.conf
     template: src=templates/httpd.conf.j2 dest=/etc/httpd/conf/httpd.conf
