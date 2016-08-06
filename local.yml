@@ -1,5 +1,5 @@
 ---
-- hosts: localhost
+- hosts: local
 
   vars:
     - drush_update_packages: no
@@ -51,8 +51,8 @@
       - php56-pecl-redis.x86_64
       - php56-pecl-imagick.x86_64
 
-  #- name: Copy httpd.conf
-  #  template: src=../templates/httpd.conf.j2 dest=/etc/httpd/conf/httpd.conf
+  - name: Copy httpd.conf
+    template: src=templates/httpd.conf.j2 dest=/etc/httpd/conf/httpd.conf
 
   - name: Start and enable Apache
     service: name=httpd state=started enabled=yes
@@ -96,3 +96,12 @@
     yum: name={{ item }} update_cache=yes state=latest
     with_items:
       - docker
+
+  - name: Start and enable Apache
+      service: name=docker state=started enabled=yes
+
+  - name: Make seleniumhub directory /opt/seleniumhub
+    file: path=/opt/seleniumhub state=directory mode=0755 owner=root group=root
+
+  - name: Copy in docker-compose.yml /opt/seleniumhub
+    template: src=templates/docker-compose.yml.j2 dest=/opt/seleniumhub/docker-compose.yml
