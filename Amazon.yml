@@ -30,10 +30,10 @@
    - php56-pecl-redis.x86_64
    - php56-pecl-imagick.x86_64
 
-  - name: Install Docker
-    yum: name={{ item }} update_cache=yes state=latest
-    with_items:
-      - docker
+- name: Install Docker
+  yum: name={{ item }} update_cache=yes state=latest
+  with_items:
+   - docker
 
-  - name: Start and enable Docker
-    service: name=docker state=started enabled=yes
+- name: Start and enable Docker
+  service: name=docker state=started enabled=yes

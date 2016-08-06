@@ -20,10 +20,10 @@
    - php-process
    - php-xml
 
-  - name: Install Docker
-    yum: name={{ item }} update_cache=yes state=latest
-    with_items:
-      - docker-engine
+- name: Install Docker
+  yum: name={{ item }} update_cache=yes state=latest
+  with_items:
+   - docker-engine
 
-  - name: Start and enable Docker
-    service: name=docker state=started enabled=yes
+- name: Start and enable Docker
+  service: name=docker state=started enabled=yes
