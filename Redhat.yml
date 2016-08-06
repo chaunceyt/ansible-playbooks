@@ -1,6 +1,6 @@
 ---
 - name: Setup Docker repo
-  copy: src=./files/docker.repo dest=/etc/yum.repos.d/docker.repo mode=0755 owner=root group=root
+  copy: src=./files/docker.repo dest=/etc/yum.repos.d/docker.repo mode=0644 owner=root group=root
 
 - name: Install Redhat PHP stack
   yum: name={{ item }} update_cache=yes state=latest
