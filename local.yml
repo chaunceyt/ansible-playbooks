@@ -98,7 +98,7 @@
       - docker
 
   - name: Start and enable Apache
-      service: name=docker state=started enabled=yes
+    service: name=docker state=started enabled=yes
 
   - name: Make seleniumhub directory /opt/seleniumhub
     file: path=/opt/seleniumhub state=directory mode=0755 owner=root group=root
