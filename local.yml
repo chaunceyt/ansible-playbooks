@@ -37,7 +37,7 @@
   - include: playbooks/Amazon.yml
     when: ansible_distribution == 'Amazon'
 
-  - include: playbooks/Redhat.yml
+  - include: playbooks/RedHat.yml
     when: ansible_distribution == 'RedHat'
 
   - name: Copy httpd.conf
@@ -81,24 +81,32 @@
   - name: Create symlink for drush under /usr/local/bin
     file: src=/opt/drush/drush dest=/usr/local/bin/drush owner=root group=root state=link
 
+  - name: Check for swap file of t2.micro
+    stat: path=/var/swap.1
+    register: swap_file
+    when: ansible_ec2_instance_type == "t2.micro"
+
+  - name: Copy over setup-swap.sh
+    copy: src=files/setup-swap.sh dest=/tmp/setup-swap.sh mode=0755 owner=root group=root
+    when: ansible_ec2_instance_type == "t2.micro" and swap_file.stat.exists == False
+
+  - name: Enable Swap if we do not have a /var/swap.1
+    command: /tmp/setup-swap.sh
+    args:
+      creates: /var/swap.1
+    when: ansible_ec2_instance_type == "t2.micro" and swap_file.stat.exists == False
+    
+  - name: Copy setup docker-compose
+    copy: src=files/setup-docker-compose.sh dest=/tmp/setup-docker-compose.sh mode=0755 owner=root group=root
+
+  - name: Execute docker compose setup script.
+    command: /tmp/setup-docker-compose.sh
+    args:
+      creates: /usr/local/bin/docker-compose
+
   - name: Make seleniumhub directory /opt/seleniumhub
     file: path=/opt/seleniumhub state=directory mode=0755 owner=root group=root
 
   - name: Copy in docker-compose.yml /opt/seleniumhub
     template: src=templates/docker-compose.yml.j2 dest=/opt/seleniumhub/docker-compose.yml
 
-  - name: Make a 1GB swap space
-    command: /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
-    when: ansible_ec2_instance_type == 't2.micro'
-
-  - name: Make swap
-    command: /sbin/mkswap /var/swap.1 creates=/var/swap.1
-    when: ansible_ec2_instance_type == 't2.micro'
-
-  - name: Set permission on swap
-    file: path=/var/swap.1 owner=root group=root mode=0600 
-    when: ansible_ec2_instance_type == 't2.micro'
-
-  - name: Turn on swap
-    command: /sbin/swapon /var/swap.1
-    when: ansible_ec2_instance_type == 't2.micro' 
