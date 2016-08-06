@@ -79,7 +79,7 @@
     when: composer.stat.exists == False
 
   - name: Installing Drush
-    shell: /usr/local/bin/composer -d=/usr/local/composer global require drush/drush:6.4.0
+    shell: export COMPOSER_HOME=/root && /usr/local/bin/composer -d=/usr/local/composer global require drush/drush:6.4.0
     when: drush.stat.exists == False
 
   - name: Updating composer components
