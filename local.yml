@@ -3,11 +3,21 @@
   become: yes
   become_user: root
   become_method: sudo
+  gather_facts: yes
 
   vars:
     - drush_update_packages: no
 
   tasks:
+  - debug: var=ansible_distribution
+
+  - name: get ec2 facts
+    ec2_facts:
+
+  - debug: var=ansible_ec2_instance_id
+  - debug: var=ansible_ec2_instance_type
+  - debug: var=ansible_ec2_public_hostname
+
   - name: check if EPEL is installed
     shell: /usr/bin/rpmquery epel-release
     register: epel_installed
