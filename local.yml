@@ -96,7 +96,7 @@
     when: ansible_ec2_instance_type == 't2.micro'
 
   - name: Set permission on swap
-    command: chmod 600 /var/swap.1
+    file: path=/var/swap.1 owner=root group=root mode=0600 
     when: ansible_ec2_instance_type == 't2.micro'
 
   - name: Turn on swap
