@@ -1,6 +1,6 @@
 ---
 - name: Installing Drush
-  shell: export COMPOSER_HOME=/root && /usr/local/bin/composer -d=/usr/local/composer global require drush/drush:6.4.0
+  shell: export COMPOSER_HOME=/root && /usr/local/bin/composer -d=/usr/local/composer global require drush/drush:8.1.2
   when: drush.stat.exists == False
 
 - name: Updating composer components
