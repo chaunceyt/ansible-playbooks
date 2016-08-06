@@ -10,8 +10,8 @@
 
 - debug: var=uname_s
 
-- name: Install docker compose
-  command: >
-    curl -L https://github.com/docker/compose/releases/download/1.8.0/docker-compose-{{ uname_s.stdout }}-{{ uname_m.stdout}} > /usr/local/bin/docker-compose
-    chmod +x /usr/local/bin/docker-compose
-    creates=/usr/local/bin/docker-compose
+#- name: Install docker compose
+#  command: >
+#    curl -L https://github.com/docker/compose/releases/download/1.8.0/docker-compose-{{ uname_s.stdout }}-{{ uname_m.stdout}} > /usr/local/bin/docker-compose
+#    chmod +x /usr/local/bin/docker-compose
+#    creates=/usr/local/bin/docker-compose
