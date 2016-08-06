@@ -78,3 +78,10 @@
   - name: Copy in docker-compose.yml /opt/seleniumhub
     template: src=templates/docker-compose.yml.j2 dest=/opt/seleniumhub/docker-compose.yml
 
+  - name: Start up Selenium hub
+    command: /usr/local/bin/docker-compose -f docker-compose.yml -p seleniumhub up -d
+    args:
+      chdir: /opt/seleniumhub
+
+  - wait_for: port=4444 delay=10
+
