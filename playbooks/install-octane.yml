@@ -9,4 +9,5 @@
   command: /usr/local/bin/composer install && composer drupal-scaffold
   args:
     chdir: /var/www/octane
-  become: no
+  become: true
+  become_user: ec2-user
