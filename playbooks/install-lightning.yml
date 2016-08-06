@@ -7,3 +7,12 @@
 
 - name: Unarchive lightning-8.x-1.03-core.tar.gz
   unarchive: src=/var/www/lightning-8.x-1.03-core.tar.gz dest=/var/www/lightning
+
+- name: Remove current /var/www/html
+  file: path=/var/www/html state=absent
+
+- name: Create Symlink to lightning build
+  file: src=/var/www/lightning/lightning-8.x-1.03 dest=/var/www/html owner=root group=root
+
+- name: Create files folder
+  file: path=/var/www/lightning/lightning-8.x-1.03/sites/default/files state=directory owner=apache group=apache recursive=yes
