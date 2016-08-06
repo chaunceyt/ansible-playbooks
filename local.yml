@@ -75,7 +75,7 @@
     when: composer.stat.exists == False
 
   - name: Install Composer
-    shell: /usr/bin/php /tmp/installer && mv composer.phar /usr/local/bin/composer
+    shell: cd /tmp && /usr/bin/php /tmp/installer && mv /tmp/composer.phar /usr/local/bin/composer
     when: composer.stat.exists == False
 
   - name: Installing Drush
