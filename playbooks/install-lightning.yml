@@ -15,4 +15,4 @@
   file: src=/var/www/lightning/lightning-8.x-1.03 dest=/var/www/html state=link owner=root group=root
 
 - name: Create files folder
-  file: path=/var/www/lightning/lightning-8.x-1.03/sites/default/files state=directory owner=apache group=apache recursive=yes
+  file: path=/var/www/lightning/lightning-8.x-1.03/sites/default/files state=directory owner=apache group=apache
