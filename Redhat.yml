@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Install Redhat PHP stack
+      yum: name={{ item }} update_cache=yes state=latest
+      with_items:
+        - git
+        - dstat
+        - tree
+        - httpd
+        - php
+        - php-cli
+        - php-gd
+        - php-ldap
+        - php-mysql
+        - php-pdo
+        - php-pear
+        - php-pecl-memcache
+        - php-process
+        - php-xml
