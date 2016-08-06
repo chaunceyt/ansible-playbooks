@@ -1,0 +1,8 @@
+---
+- name: Checkout Octane Lightning Distro.
+  git: repo=https://github.com/phase2/octane.git dest=/var/www/octane
+
+- name: Run composer install within octane directory
+  command: export COMPOSER_HOME=/root && /usr/local/bin/composer install && composer drupal-scaffold
+  args:
+    chdir: /var/www/octane
