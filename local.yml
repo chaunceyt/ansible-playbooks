@@ -38,7 +38,7 @@
     when: ansible_distribution == 'Amazon'
 
   - include: Redhat.yml
-    when: ansible_distribution == 'Redhat'
+    when: ansible_distribution == 'RedHat'
 
   - name: Copy httpd.conf
     template: src=templates/httpd.conf.j2 dest=/etc/httpd/conf/httpd.conf
