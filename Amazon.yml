@@ -1,33 +1,31 @@
 ---
-- hosts: localhost
-  tasks:
-    - name: Install Amazon PHP stack
-      yum: name={{ item }} update_cache=yes state=latest
-      with_items:
-        - git
-        - htop
-        - dstat
-        - mosh
-        - tree
-        - httpd24
-        - php56
-        - php56-common
-        - php56-xml
-        - php56-pdo
-        - php56-opcache
-        - php56-pecl-apcu
-        - php56-mcrypt
-        - php56-process
-        - php56-soap
-        - php56-cli
-        - php56-mysqlnd
-        - php56-gd
-        - php56-gmp
-        - php56-mbstring
-        - php56-devel
-        - php56-imap
-        - php56-pecl-igbinary
-        - php56-pecl-igbinary-devel
-        - php56-pecl-memcache.x86_64
-        - php56-pecl-redis.x86_64
-        - php56-pecl-imagick.x86_64
+- name: Install Amazon PHP stack
+  yum: name={{ item }} update_cache=yes state=latest
+  with_items:
+   - git
+   - htop
+   - dstat
+   - mosh
+   - tree
+   - httpd24
+   - php56
+   - php56-common
+   - php56-xml
+   - php56-pdo
+   - php56-opcache
+   - php56-pecl-apcu
+   - php56-mcrypt
+   - php56-process
+   - php56-soap
+   - php56-cli
+   - php56-mysqlnd
+   - php56-gd
+   - php56-gmp
+   - php56-mbstring
+   - php56-devel
+   - php56-imap
+   - php56-pecl-igbinary
+   - php56-pecl-igbinary-devel
+   - php56-pecl-memcache.x86_64
+   - php56-pecl-redis.x86_64
+   - php56-pecl-imagick.x86_64
