@@ -34,10 +34,10 @@
       state: latest
     when: epel_installed|failed
 
-  - include: Amazon.yml
+  - include: playbooks/Amazon.yml
     when: ansible_distribution == 'Amazon'
 
-  - include: Redhat.yml
+  - include: playbooks/Redhat.yml
     when: ansible_distribution == 'RedHat'
 
   - name: Copy httpd.conf
@@ -86,3 +86,12 @@
 
   - name: Copy in docker-compose.yml /opt/seleniumhub
     template: src=templates/docker-compose.yml.j2 dest=/opt/seleniumhub/docker-compose.yml
+
+  - name: Make a 1GB swap space
+    command: >
+      /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
+      /sbin/mkswap /var/swap.1
+      chmod 600 /var/swap.1
+      /sbin/swapon /var/swap.1
+      creates=/var/swap.1
+    when: ansible_ec2_instance_type == 't2.micro' 
