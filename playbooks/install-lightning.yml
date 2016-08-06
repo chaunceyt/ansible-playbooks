@@ -2,5 +2,8 @@
 - name: Get Lightning Distro.
   get_url: url=https://ftp.drupal.org/files/projects/lightning-8.x-1.03-core.tar.gz dest=/var/www/
 
+- name: Create /var/www/lightning directory
+  file: path=/var/www/lightning state=directory mode=0755 owner=root group=root
+
 - name: Unarchive lightning-8.x-1.03-core.tar.gz
   unarchive: src=/var/www/lightning-8.x-1.03-core.tar.gz dest=/var/www/lightning
