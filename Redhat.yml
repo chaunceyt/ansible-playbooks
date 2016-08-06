@@ -1,4 +1,7 @@
 ---
+- name: Setup Docker repo
+  copy: src=./files/docker.repo dest=/etc/yum.repos.d/docker.repo mode=0755 owner=root group=root
+
 - name: Install Redhat PHP stack
   yum: name={{ item }} update_cache=yes state=latest
   with_items:
@@ -16,3 +19,11 @@
    - php-pecl-memcache
    - php-process
    - php-xml
+
+  - name: Install Docker
+    yum: name={{ item }} update_cache=yes state=latest
+    with_items:
+      - docker-engine
+
+  - name: Start and enable Docker
+    service: name=docker state=started enabled=yes

@@ -81,14 +81,6 @@
   - name: Create symlink for drush under /usr/local/bin
     file: src=/opt/drush/drush dest=/usr/local/bin/drush owner=root group=root state=link
 
-  - name: Install Docker
-    yum: name={{ item }} update_cache=yes state=latest
-    with_items:
-      - docker
-
-  - name: Start and enable Apache
-    service: name=docker state=started enabled=yes
-
   - name: Make seleniumhub directory /opt/seleniumhub
     file: path=/opt/seleniumhub state=directory mode=0755 owner=root group=root
 
