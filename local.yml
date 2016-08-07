@@ -84,3 +84,5 @@
       chdir: /opt/seleniumhub
 
   - wait_for: port=4444 delay=10
+
+  - include: install-jenkins.yml
