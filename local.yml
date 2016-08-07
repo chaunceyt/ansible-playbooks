@@ -85,4 +85,4 @@
 
   - wait_for: port=4444 delay=10
 
-  - include: install-jenkins.yml
+  - include: playbooks/install-jenkins.yml
