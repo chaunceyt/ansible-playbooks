@@ -1,0 +1,8 @@
+---
+- name: Checkout Docker ELK Stack
+  git: repo=https://github.com/deviantony/docker-elk.git dest=/opt/docker-elk
+
+- name: Startup Docker container
+  command: /usr/local/bin/docker-compose up -d
+  args:
+    chdir: /opt/docker-elk
