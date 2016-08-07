@@ -14,3 +14,14 @@
 - name: Start and enable Jenkins
   service: name=jenkins state=started enabled=yes
 
+- name: Setup Up testing directory
+  file: path=/opt/site_tests state=directory mode=0744 owner=root group=root
+
+- name: Copy in custom composer.json
+  template: src=templates/composer.json.j2 dest=/opt/site_tests/composer.json
+
+- name: Setup test structure
+  command: /usr/local/bin/composer install
+  args:
+    chdir: /opt/site_tests
+
