@@ -38,3 +38,8 @@
 - name: Start and enable Docker
   service: name=docker state=started enabled=yes
 
+- name: Start and enable Apache
+  service: name=httpd state=started enabled=yes
+
+- name: Copy index.php to /var/www/html
+  copy: src=../files/index.php dest=/var/www/html/index.php owner=root group=root
