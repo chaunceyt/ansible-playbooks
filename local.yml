@@ -63,13 +63,3 @@
           creates: /var/swap.1
         when: swap_file.stat.exists == False
     when: ansible_ec2_instance_type == "t2.micro"
-    
-  - name: Copy setup docker-compose
-    copy: src=files/setup-docker-compose.sh dest=/tmp/setup-docker-compose.sh mode=0755 owner=root group=root
-
-  - name: Execute docker compose setup script.
-    command: /tmp/setup-docker-compose.sh
-    args:
-      creates: /usr/local/bin/docker-compose
-
-  - include: playbooks/install-seleniumhub.yml
